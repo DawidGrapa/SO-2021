@@ -6,5 +6,6 @@ clean:
 
 test:
 	$(CC) $(CFLAGS) main.c -o main -lm
-	./main d a.txt
+	./main a.txt b.txt dreszc DDDDDD
+
 
