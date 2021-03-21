@@ -65,12 +65,12 @@ void library(char* file1,char*file2,char*row1,char*row2){
             fwrite(&c,sizeof(char),1,output);
         }
         else{
-            fseek(f,-1,1);
+            fseek(f,-1,1);   //trzeba sie cofnac, poniewaz po powyzszym fread pozycja jest o jeden w prawo
             fread(text,sizeof(char),strlen(row1),f);
-            if(!strcmp(row1,text)){
+            if(!strcmp(row1,text)){  //jezeli te same napisy, to podmieniam
                 fwrite(row2,sizeof(char),strlen(row2),output);
             }
-            else{
+            else{  //jesli nie no to nie
                 fwrite(text,sizeof(char),strlen(text),output);
             }
         }

@@ -45,7 +45,7 @@ void system_func(){
         while(text[temp]!='\n'){
             temp++;
         }
-        int a = atoi(text);
+        int a = atoi(text);  //zamiana stringa na inta z bliblioteki string.h
         j=a;
         if(!((int)a%2)){
             parzyste++;
@@ -54,7 +54,7 @@ void system_func(){
             write(b,text,temp+1);
         }
         root=sqrt((double)a);
-        j=root;
+        j=root;    //j jest intem, wiec zaokragli w dol, jesli jednak pierwiastek jest ok, to powinny sie rownac
         if(j==root){
             sprintf(number,"%d",j*j);
             strcat(number,"\n");

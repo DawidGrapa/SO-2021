@@ -6,4 +6,4 @@ clean:
 
 test:
 	$(CC) $(CFLAGS) main.c -o main
-	./main f a.txt
+	./main d a.txt

@@ -41,7 +41,7 @@ void system_func(const char *file1,const char*file2){
 
     size_t temp1=0,temp2=0;
 
-    while(size1 || size2){
+    while(size1 || size2){  //literka po literce, dopoki nie ma nowej linii albo jest co czytac
         bool notslashn1=true;
         while(size1 && notslashn1){
             write(1,&text1[temp1],1);
