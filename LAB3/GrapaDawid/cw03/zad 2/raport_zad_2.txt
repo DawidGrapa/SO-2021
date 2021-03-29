@@ -1,0 +1,15 @@
+
+Small tests - 5 blocks 10 rows
+
+              REAl        USER        SYSTEM
+MERGE       0.000174    0.000000    0.000000
+
+Medium Tests - 200 blocks 100 rows
+
+              REAl        USER        SYSTEM
+MERGE       0.005330    0.000000    0.000000
+
+Large tests - 500 blocks - 1000 rows
+
+              REAl        USER        SYSTEM
+MERGE       0.013755    0.000000    0.010000

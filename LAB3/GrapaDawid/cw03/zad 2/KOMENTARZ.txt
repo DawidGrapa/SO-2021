@@ -1,0 +1,1 @@
+Dla malej ilosci plikow do mergowania szybsza jest metoda z zestawu 1. Jesli natomiast ilosc plikow srastycznie zwiekszy sie, szybsze bedzie mergowanie w osobnych procesach.
