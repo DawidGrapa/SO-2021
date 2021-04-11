@@ -9,7 +9,6 @@
 int signal_counter = 0,sig1=SIGUSR1,sig2=SIGUSR2,mode;
 
 void handler(int sig,siginfo_t *info,void*context){
-    printf("%d\n",sig);
     if(sig==sig1){
         signal_counter++;
     }
