@@ -9,10 +9,7 @@
 int signal_counter = 0,sig1=SIGUSR1,sig2=SIGUSR2,mode;
 
 void handler(int sig,siginfo_t *info,void*context){
-    if(sig==sig1){
-        signal_counter++;
-    }
-    else if(sig == sig2){
+    if(sig == sig2){
         if(mode ==2){
             union sigval sigval;
             sigval.sival_int = 0;
@@ -30,9 +27,9 @@ void handler(int sig,siginfo_t *info,void*context){
         }
     }
 }
-
-
-
+void count_handler(int signo){
+    signal_counter++;
+}
 
 int main(int argc, char* argv[]){
 
@@ -51,20 +48,23 @@ int main(int argc, char* argv[]){
     }
     else if(!strcmp(argv[1],"kill")) mode = 1;
     else return 1;
+
     printf("Chatcher PID: %d\n",getpid());
-    struct sigaction act;
-    act.sa_flags = SA_SIGINFO;
-    
-    act.sa_sigaction = handler;
+    struct sigaction act1;
+    struct sigaction act2;
+    act2.sa_flags = SA_SIGINFO;
+    act1.sa_sigaction = count_handler;
+    act2.sa_sigaction = handler;
+
+
+    sigaction(sig1,&act1,NULL);
+    sigaction(sig2,&act2,NULL);
 
     sigset_t mask;
     sigfillset(&mask);
     sigdelset(&mask,sig1);
     sigdelset(&mask,sig2);
 
-    sigaction(sig1,&act,NULL);
-    sigaction(sig2,&act,NULL);
-    
     while(1) sigsuspend(&mask);
     return 0;
 }
