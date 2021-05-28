@@ -1,4 +1,6 @@
 #include <stdio.h>
+#define _POSIX_C_SOURCE 200809L
+#define _XOPEN_SOURCE 700
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -6,11 +8,12 @@
 #include <sys/wait.h>
 #include <string.h>
 
-int signal_counter = 0;
+
+int signal_counter;
 
 int no_signals = 0;
 
-int mode=0,last_received,sig1=SIGUSR1,sig2=SIGUSR2;
+int mode,last_received,sig1,sig2;
 
 void handler(int sig,siginfo_t *info,void*context){
     if(mode == 2) last_received = info->si_value.sival_int;
@@ -27,8 +30,8 @@ void handler(int sig,siginfo_t *info,void*context){
 
 
 int main(int argc, char*argv[]){
-
-
+    printf("Sender: %d",getpid());
+    signal_counter = 0;
     if(argc<3) {puts("Wrong arguments");return 0;};
 
     if(!strcmp(argv[3],"sigrt")){
@@ -38,8 +41,14 @@ int main(int argc, char*argv[]){
     }
     else if(!strcmp(argv[3],"sigqueue")){
         mode = 2;
+        sig1=SIGUSR1;
+        sig2=SIGUSR2;
     }
-    else if(!strcmp(argv[3],"kill")) mode = 1;
+    else if(!strcmp(argv[3],"kill")) {
+        mode = 1;
+        sig1=SIGUSR1;
+        sig2=SIGUSR2;
+    }
     else return 1;
     pid_t catcher_pid = atoi(argv[1]);
     

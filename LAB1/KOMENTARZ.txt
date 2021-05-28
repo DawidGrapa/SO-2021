@@ -1,2 +1,0 @@
-Przeslany przeze mnie zestaw jest kompletny. Kazde z zadan dziala prawidlowo, bez ostrzezen z opcja -Wall.
-

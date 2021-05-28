@@ -5,10 +5,15 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <string.h>
+#define _POSIX_C_SOURCE 200809L
+#define _XOPEN_SOURCE 700
 
-int signal_counter = 0,sig1=SIGUSR1,sig2=SIGUSR2,mode;
+
+int signal_counter = 0,sig1,sig2,mode;
 
 void handler(int sig,siginfo_t *info,void*context){
+    puts("A");
+    printf("%d",info->si_pid);
     if(sig == sig2){
         if(mode ==2){
             union sigval sigval;
@@ -17,8 +22,9 @@ void handler(int sig,siginfo_t *info,void*context){
                 sigqueue(info->si_pid,sig1,sigval);
             }
             sigqueue(info->si_pid,sig2,sigval);
-            }
-        else if(mode == 1 || mode == 3){
+            printf("Received %d signals in catcher",signal_counter);
+        }
+        else {
             for(int i=0; i<signal_counter; i++){
                 kill(info->si_pid,sig1);
             }
@@ -32,7 +38,7 @@ void count_handler(int signo){
 }
 
 int main(int argc, char* argv[]){
-
+    
     if(argc<2) {
         puts("Wrong arguments"); 
         return 0;
@@ -45,15 +51,21 @@ int main(int argc, char* argv[]){
     }
     else if(!strcmp(argv[1],"sigqueue")){
         mode = 2;
+        sig1=SIGUSR1;
+        sig2=SIGUSR2;
     }
-    else if(!strcmp(argv[1],"kill")) mode = 1;
+    else if(!strcmp(argv[1],"kill")) {
+        mode = 1;
+        sig1=SIGUSR1;
+        sig2=SIGUSR2;
+    }
     else return 1;
 
     printf("Chatcher PID: %d\n",getpid());
     struct sigaction act1;
     struct sigaction act2;
     act2.sa_flags = SA_SIGINFO;
-    act1.sa_sigaction = count_handler;
+    act1.sa_handler = count_handler;
     act2.sa_sigaction = handler;
 
 
@@ -64,6 +76,7 @@ int main(int argc, char* argv[]){
     sigfillset(&mask);
     sigdelset(&mask,sig1);
     sigdelset(&mask,sig2);
+    sigprocmask(SIG_SETMASK,&mask,NULL);
 
     while(1) sigsuspend(&mask);
     return 0;

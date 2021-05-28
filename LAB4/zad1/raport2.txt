@@ -1,0 +1,13 @@
+----------FORK----------
+
+DYSPOZYCJA          POTOMNY DZIEDZICZY
+ignore              TAK
+handler             TAK
+mask                TAK
+pending             NIE
+
+----------EXEC----------
+DYSPOZYCJA          EXEC DZIEDZICZY
+ignore              TAK
+mask                TAK
+pending             TAK
